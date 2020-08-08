@@ -1,0 +1,10 @@
+Goal:
+    Create a Django ecommerce website.
+
+Functionality:
+    1) User needs to create an account.
+    2) Once logged in, user can buy/sell not only physical products but also digital/intellectual properties.
+    2.1) Can upload product(image, detail, price).
+
+Appearance and user interface:
+    Similar to Amazon.
