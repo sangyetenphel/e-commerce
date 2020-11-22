@@ -1,4 +1,11 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
+<ul>
+  {% for product in products %}
+    <li>{{ product }}</li>
+  {% empty %}
+    <li>No Products here!</li>
+  {% endfor %}
+</ul>
 {% endblock content %}
