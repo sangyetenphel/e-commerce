@@ -4,6 +4,8 @@
 <ul>
   {% for product in products %}
     <li>{{ product }}</li>
+    <li>{{ product.price }}</li>
+    <a href="{% url 'store:add_cart' product.id %}">Add to cart</a>
   {% empty %}
     <li>No Products here!</li>
   {% endfor %}
