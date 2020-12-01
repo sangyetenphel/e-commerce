@@ -8,17 +8,44 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
     <title>Ecom</title>
+
+    <script>
+      var user = '{{request.user}}'
+
+      // Code fix pasted from Django csrf token ajax
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getToken('csrftoken');
+
+    </script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'store:index' %}">Ecom</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+          <!-- <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="#">All <span class="sr-only">(current)</span></a>
             </li>
@@ -28,15 +55,15 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Used</a>
             </li>
-          </ul>
-          <ul class="navbar-nav">
+          </ul> -->
+          <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="#">Hi, {{ user.username }}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
-              </li>
+              </li> 
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'users:register' %}">Register</a>
@@ -46,19 +73,30 @@
               </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'store:cart' %}">Cart</a>
+              <div class="form-inline">
+                <a href="{% url 'store:cart' %}">
+                 <img id="cart-icon" src="{% static 'images/cart.png' %}">
+               </a>
+               <p id="cart-total">{{cartItems}}</p>
+              </div>
             </li>
           </ul>
         </div>
     </nav>
 
-    {% block content %}
-    {% endblock content %}
+    <div class="container">
+      {% block content %}
+      
+      {% endblock content %}
+    </div>
 
-    <!-- Optional JavaScript -->
+    
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <!-- Optional JavaScript -->
+    <script type="text/javascript" src="{% static 'js/cart.js'%}"></script>
   </body>
 </html>
