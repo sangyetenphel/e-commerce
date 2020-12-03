@@ -140,6 +140,9 @@
             .then((data) => {
                 console.log('Sucess:', data)
                 alert('Transaction completed')
+
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";dommain=;path=/"
                 window.location.href = "{% url 'store:index' %}"
             })
         }
