@@ -2,11 +2,9 @@
     width:25px;
     /* margin:  top right bottom left */
     margin: 10px 0px 0px 8px;
-    /* display: inline-block; */
 }
 
 #cart-total{
-    /* display: block; */
 	text-align: center;
 	color:#fff;
 	background-color: red;
@@ -40,19 +38,16 @@
 }
 
 .price{
-    /* display: inline-block;  */
     float: right;
     padding-top: 5px;
 }
 
 .checkout-btn{
     float: right;
-    /* margin: 5px; */
 }
 
 .cart-row{
     display: flex;
-    /* align-items: flex-stretch; */
     padding-bottom: 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid #ececec;
@@ -74,7 +69,6 @@
 .quantity{
     margin-top: -10px;
     display: inline-block;
-    /* font-weight: 700; */
     padding-right: 10px;
 }
 
@@ -130,9 +124,9 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    body{
+    /* body{
         background-color: red;
-    }
+    } */
 
     .price{
         font-size: 16px;
@@ -145,9 +139,9 @@
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    body{
+    /* body{
         background-color: green;
-    }
+    } */
 
     .price{
         font-size: 18px;
@@ -156,21 +150,21 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    body{
+    /* body{
         background-color: blue;
-    }
+    } */
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-    body{
+    /* body{
         background-color: yellow;
-    }
+    } */
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    body{
+    /* body{
         background-color: pink;
-    }
+    } */
 }
