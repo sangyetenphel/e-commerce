@@ -4,8 +4,8 @@
 {% block content %}
 <div class="row">
   {% for product in products %}
-    <div class="col-lg-4">
-      <img class="thumbnail" src="{{ product.image_url }}" alt="">
+    <div class="col-lg-4 col-sm-6">
+      <img class="thumbnail" src="{{ product.image_url }}" alt="{{ product }}">
       <div class="box-element product">
         <h6><strong>{{ product.name }}</strong></h6>
         <hr>

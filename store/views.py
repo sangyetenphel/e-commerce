@@ -13,7 +13,7 @@ from . utils import cookie_cart, cart_data, guest_order
 def index(request):
     """The home page for our Ecom site."""
     data = cart_data(request)
-    cart_items = data['cartItems']
+    cart_items = data['cartItems']  
 
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cart_items}

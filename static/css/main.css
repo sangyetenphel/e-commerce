@@ -1,7 +1,3 @@
-/* body{
-    overflow-x: hidden;
-} */
-
 #cart-icon{
     width:25px;
     /* margin:  top right bottom left */
@@ -46,6 +42,7 @@
 .price{
     /* display: inline-block;  */
     float: right;
+    padding-top: 5px;
 }
 
 .checkout-btn{
@@ -63,7 +60,7 @@
 
 .row-image{
     width: 100px;
-    margin-left: 25%;
+    margin-left: 20%;
 }
 
 .flex-1{
@@ -107,10 +104,73 @@
     margin: 0px;
 }
 
-/* small{
-    font-size: 18px;
-} */
+.center{
+    width: 500px;
+    height: 98vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
 
-/* #make-payment{
-    float: right;  
-} */
+.form-header a{
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;
+}
+
+.form-header a:hover{
+    color: rgb(87, 74, 3);
+}
+
+.form-header h3{
+    text-align: center;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    body{
+        background-color: red;
+    }
+
+    .price{
+        font-size: 16px;
+    }
+
+    .row-image{
+        margin-left: 0px;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    body{
+        background-color: green;
+    }
+
+    .price{
+        font-size: 18px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    body{
+        background-color: blue;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    body{
+        background-color: yellow;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    body{
+        background-color: pink;
+    }
+}
