@@ -1,3 +1,3 @@
 # e-commerce
 
-A django E-commerce website with paypal payment integration.
+A django e-commerce website with paypal payment integration.
