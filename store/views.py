@@ -3,11 +3,13 @@ import json
 import datetime
 
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 # from django.contrib.auth.decorators import login_required
 
-from .models import Product, Order, OrderItem, ShippingAddress, Customer
-from . utils import cookie_cart, cart_data, guest_order
+from .models import Product, Order, OrderItem, ShippingAddress
+from .utils import cart_data, guest_order
+from .forms import ReviewForm
 
 # Create your views here.
 def index(request):
@@ -18,6 +20,27 @@ def index(request):
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cart_items}
     return render(request, 'store/index.html', context)
+
+
+def view(request, product_id):
+    """When user clicks view button for a particular item."""
+    if request.method == 'POST':
+        # Take in the data the user submitted and save it as form
+        form = ReviewForm(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+            # Isolate the user review from the 'cleaned' version of form data
+            review = form.cleaned_data['review']
+            print(f"Review: {review}")
+            return HttpResponseRedirect(reverse('store:view', args=[product_id]))
+
+    product = Product.objects.get(id=product_id)
+    data = cart_data(request)
+    cart_items = data['cartItems']
+    form = ReviewForm()
+    context = {'product': product, 'cartItems': cart_items, 'form': form}
+    return render(request, 'store/view.html', context)
 
 
 def cart(request):
@@ -96,3 +119,4 @@ def process_order(request):
             zipcode=data['shipping']['zipcode']
         )
     return JsonResponse('Payment complete!', safe=False)
+

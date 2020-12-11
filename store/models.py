@@ -35,10 +35,21 @@ class Product(models.Model):
         return url
 
 
+class Review(models.Model):
+    """A model for reviews of a product."""
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    reviewer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    review = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.review
+
+
 class Order(models.Model):
     """A model representing an order/cart."""
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    date_ordered = models.DateField(auto_now_add=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200, null=True)
 
@@ -99,4 +110,7 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+    
+    class Meta:
+        verbose_name_plural = "Shipping addresses"
         

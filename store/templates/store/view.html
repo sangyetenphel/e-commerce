@@ -1,0 +1,41 @@
+{% extends 'store/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-4 col-sm-6">
+            <h3>{{product}}</h3>
+            <img class="thumbnail" src="{{product.image_url}}" alt="">
+            <div class="view-buttons">
+                <button data-product="{{product.id}}" data-action="add" class="btn btn-warning update-cart">Add to cart</button>
+                <button class="btn btn-success">Buy now</button>
+            </div>   
+        </div>
+        <div class="col">
+            <p>115 reviews</p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut, ducimus! Laudantium at illum quia quaerat cumque dignissimos, eveniet nihil et alias accusamus quos illo doloribus ut, quidem pariatur? Eum, eos?
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-6">
+            <h3>Write a review</h3>
+            <form action="{% url 'store:view' product.id %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <!-- <div class="form-group">
+                    <textarea class="form-control" name="" id="" rows="6"></textarea>
+                </div> -->
+                
+                <button class="btn btn-primary right">Submit Review</button>
+            </form>
+        </div>
+        <div class="col">
+            <h3>Customer reviews</h3>
+            John
+            <small>Jun 12, 2020</small>
+            <p>Sucks!!</p>
+        </div>
+    </div>
+    
+{% endblock %}
