@@ -13,7 +13,11 @@
         </div>
         <div class="col">
             <h5>About this item</h5>
-            <p>{{ product.description }}</p>
+            {% if product.description %}
+                <p>{{ product.description }}</p>
+            {% else %}
+                <p>The seller hasn't provided a descrption yet for this product.</p>
+            {% endif %}
         </div>
     </div>
 
@@ -34,9 +38,9 @@
                 Sign-In to write a review for this product. <a href="{% url 'users:login' %}">Here</a>
             {% endif %} 
         </div>
-        <div class="col">
+        <div class="col">   
             <h3>Customer reviews</h3>
-            <p>{{ reviews_count }} reviews</p>
+            <p>{{ reviews_count }}</p>
             {% for review in reviews %}
                 {{ review.reviewer }}
                 <small>{{ review.date_added }}</small>

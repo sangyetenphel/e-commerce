@@ -55,7 +55,11 @@ def view(request, product_id):
         if review.reviewer == request.user:
             review = Review.objects.get(product=product, reviewer=request.user)
             form = ReviewForm(initial={'review': review})
-    reviews_count = len(reviews)
+    if len(reviews) == 1:
+        reviews_count = "1 review"
+    else:
+        reviews_count = f"{len(reviews)} reviews"
+        
     context = {
         'product': product,
         'cartItems': cart_items,
