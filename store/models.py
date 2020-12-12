@@ -38,7 +38,7 @@ class Product(models.Model):
 class Review(models.Model):
     """A model for reviews of a product."""
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
-    reviewer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     review = models.TextField()
     date_added = models.DateField(auto_now_add=True)
 

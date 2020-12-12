@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 # from django.contrib.auth.decorators import login_required
 
-from .models import Product, Order, OrderItem, ShippingAddress
+from .models import Product, Order, OrderItem, ShippingAddress, Review
 from .utils import cart_data, guest_order
 from .forms import ReviewForm
 
@@ -24,6 +24,7 @@ def index(request):
 
 def view(request, product_id):
     """When user clicks view button for a particular item."""
+    product = Product.objects.get(id=product_id)
     if request.method == 'POST':
         # Take in the data the user submitted and save it as form
         form = ReviewForm(request.POST)
@@ -32,14 +33,36 @@ def view(request, product_id):
         if form.is_valid():
             # Isolate the user review from the 'cleaned' version of form data
             review = form.cleaned_data['review']
-            print(f"Review: {review}")
-            return HttpResponseRedirect(reverse('store:view', args=[product_id]))
+            reviewer = request.user
 
-    product = Product.objects.get(id=product_id)
+            # See if the user has already given a review for the product
+            try:
+                # If so only edit the review
+                edit_review = Review.objects.get(product=product, reviewer=reviewer)
+                edit_review.review = review
+                edit_review.save()
+            except:
+                # Else create a new review for the product with that user
+                new_review = Review.objects.create(product=product, reviewer=reviewer, review=review)
+                new_review.save()
+            return HttpResponseRedirect(reverse('store:view', args=[product_id]))
+    
     data = cart_data(request)
     cart_items = data['cartItems']
     form = ReviewForm()
-    context = {'product': product, 'cartItems': cart_items, 'form': form}
+    reviews = Review.objects.filter(product=product).all()
+    for review in reviews:
+        if review.reviewer == request.user:
+            review = Review.objects.get(product=product, reviewer=request.user)
+            form = ReviewForm(initial={'review': review})
+    reviews_count = len(reviews)
+    context = {
+        'product': product,
+        'cartItems': cart_items,
+        'form': form,
+        'reviews': reviews,
+        'reviews_count': reviews_count
+        }
     return render(request, 'store/view.html', context)
 
 

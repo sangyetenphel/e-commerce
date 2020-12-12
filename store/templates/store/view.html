@@ -12,7 +12,6 @@
             </div>   
         </div>
         <div class="col">
-            <p>115 reviews</p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut, ducimus! Laudantium at illum quia quaerat cumque dignissimos, eveniet nihil et alias accusamus quos illo doloribus ut, quidem pariatur? Eum, eos?
         </div>
     </div>
@@ -27,14 +26,19 @@
                     <textarea class="form-control" name="" id="" rows="6"></textarea>
                 </div> -->
                 
-                <button class="btn btn-primary right">Submit Review</button>
+                <button class="btn btn-primary right">Submit</button>
             </form>
         </div>
         <div class="col">
             <h3>Customer reviews</h3>
-            John
-            <small>Jun 12, 2020</small>
-            <p>Sucks!!</p>
+            <p>{{ reviews_count }} reviews</p>
+            {% for review in reviews %}
+                {{ review.reviewer }}
+                <small>{{ review.date_added }}</small>
+                <p>{{ review.review }}</p>
+            {% empty %}
+                No reviews yet for this item.
+            {% endfor %}
         </div>
     </div>
     
