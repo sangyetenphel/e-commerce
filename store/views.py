@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 # from django.contrib.auth.decorators import login_required
 
-from .models import Product, Order, OrderItem, ShippingAddress, Review
+from .models import Product, Order, OrderItem, ShippingAddress, Review, Customer
 from .utils import cart_data, guest_order
 from .forms import ReviewForm
 
@@ -59,7 +59,7 @@ def view(request, product_id):
         reviews_count = "1 review"
     else:
         reviews_count = f"{len(reviews)} reviews"
-        
+
     context = {
         'product': product,
         'cartItems': cart_items,
@@ -147,3 +147,45 @@ def process_order(request):
         )
     return JsonResponse('Payment complete!', safe=False)
 
+
+def buy_now(request, product_id):
+    """When user clicks on 'buy now' button."""
+    data = cart_data(request)
+    cart_items = data['cartItems']
+
+    product = Product.objects.get(id=product_id)
+    # If product is digital, then shipping is False
+    shipping = not product.digital
+    context = {
+        'product': product,
+        'shipping': shipping,
+        'cartItems': cart_items,
+        }
+    return render(request, 'store/buy_now.html', context)
+
+
+def process_order_now(request):
+    """When a user clicks 'buy now'."""
+    transaction_id = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+    else:
+        # Creating a guest customer using the data received from the fetch API
+        customer, created = Customer.objects.get_or_create(name=data['form']['name'],email=data['form']['email'])
+        customer.save()
+
+    order = Order(customer=customer, complete=True, transaction_id=transaction_id)
+    order.save()
+    
+    if order.shipping == True:
+        ShippingAddress.objects.create(
+            customer=customer,
+            order=order,
+            address=data['shipping']['address'],
+            city=data['shipping']['city'],
+            state=data['shipping']['state'],
+            zipcode=data['shipping']['zipcode']
+        )
+    return JsonResponse('Payment complete!', safe=False)

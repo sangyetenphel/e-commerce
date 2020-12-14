@@ -1,11 +1,11 @@
 {% extends 'store/base.html' %}
-{% load static %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="box-element" id="form-wrapper">
-                <form action="" id="form">
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element" id="form-wrapper">
+            <form action="" id="form">
+                {% if not request.user.is_authenticated %}
                     <div id="user-info">
                         <div class="form-field">
                             <input class="form-control" type="text" name="name" id="" placeholder="Name.." required>
@@ -14,9 +14,11 @@
                             <input class="form-control" type="email" name="email" placeholder="Email.." required>
                         </div>
                     </div>
-
+                    <hr>
+                {% endif %}
+                
+                {% if shipping %}
                     <div id="shipping-info">
-                        <hr>
                         <p>Shipping Information:</p>
                         <hr>
                         <div class="form-field">
@@ -35,54 +37,49 @@
                             <input class="form-control" type="text" name="country" id="" placeholder="Country..">
                         </div>
                     </div>
-
                     <hr>
-                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
-                </form>
-            </div>
-            <br>
-
-            <div class="box-element hidden" id="payment-info">
-                <p>Paypal Options</p>
-
-                <!-- Set up a container element for the button -->
-                <div id="paypal-button-container"></div>
-            </div>
+                {% endif %}
+                <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+            </form>
         </div>
+        <br>
 
-        <div class="col-lg-6">
-            <div class="box-element">
-                <a class="btn btn-outline-dark" href="{% url 'store:cart' %}">&#x2190; Back to Cart</a>
-                <hr>
-                <h3>Order Summary</h3>
-                <hr>
-                {% for item in items %}
-                    <div class="cart-row">
-                        <div class="flex-2"><img class="row-image default" src="{{item.product.image_url}}" alt="{{item.product}}"></div>
-                        <div class="flex-2"><p>{{item.product.name}}</p></div>
-                        <div class="flex-1"><p>${{item.product.price}}</p></div>
-                        <div class="flex-1"><p>x{{item.quantity}}</p></div>
-                    </div>
-                {% endfor %}
-                <h5>Items: {{order.get_cart_items}}</h5>
-                <h5>Total: ${{order.get_cart_total}}</h5>
-            </div>
+        <div class="box-element hidden" id="payment-info">
+            <p>Paypal Options</p>
+
+            <!-- Set up a container element for the button -->
+            <div id="paypal-button-container"></div>
         </div>
     </div>
+
+    <div class="col-lg-6">
+        <div class="box-element">
+            <a class="btn btn-outline-dark" href="{% url 'store:cart' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <h3>Order Summary</h3>
+            <hr>
+            <div class="cart-row">
+                <div class="flex-2"><img class="row-image default" src="{{product.image_url}}" alt="{{item.product}}"></div>
+                <div class="flex-2"><p>{{product.name}}</p></div>
+                <div class="flex-1"><p>${{product.price}}</p></div>
+                <!-- <div class="flex-1"><p>x{{item.quantity}}</p></div> -->
+            </div>
+            <h5>Total: ${{product.price}}</h5>
+        </div>
+    </div>
+</div>
 
     <!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AdolZR0tFJ7-AC1eZrGAZoN0KO2ALbKwG4YHUFX-WULO71TzvnxY8W1gPxG51FbVwlHiyq_LlF-krBcN&currency=USD&disable-funding=credit"></script>
 
     <script>
-        var total = '{{order.get_cart_total}}'
+        var total = '{{product.price}}'
 
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
 
             style:{
                 color:'blue',
-                // shape:'pill',
-                // label:'pay',
                 height:40,
             },
 
@@ -111,15 +108,7 @@
     </script>
 
     <script>
-        var shipping = '{{order.shipping}}'
-
-        if(shipping == 'False'){
-            document.getElementById('shipping-info').innerHTML = ''
-        }
-
-        if(user != 'AnonymousUser'){
-            document.getElementById('user-info').innerHTML = ''
-        }
+        var shipping = '{{shipping}}'
 
         if(shipping == 'False' && user != 'AnonymousUser'){
             document.getElementById('form-wrapper').classList.add('hidden')
@@ -135,9 +124,6 @@
             document.getElementById('payment-info').classList.remove('hidden')
         })
 
-        // document.getElementById('make-payment').addEventListener('click', function(e){
-        //     submitFormData()
-        // })
 
         function submitFormData(){
             console.log('Payment button clicked')
@@ -167,7 +153,7 @@
                 userFormData.email = form.email.value
             }
 
-            var url = '/process_order/'
+            var url = '/process_order_now/'
             fetch(url,{
                 method:'POST',
                 headers: {
@@ -189,3 +175,5 @@
         }
     </script>
 {% endblock content %}
+
+
