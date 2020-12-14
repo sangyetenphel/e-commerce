@@ -179,7 +179,8 @@ def process_order_now(request):
     order = Order(customer=customer, complete=True, transaction_id=transaction_id)
     order.save()
     
-    if order.shipping == True:
+    # Check if we need to save shipping Info
+    if data['shipping']['address'] != None:
         ShippingAddress.objects.create(
             customer=customer,
             order=order,
