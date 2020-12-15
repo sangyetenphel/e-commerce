@@ -12,7 +12,7 @@
 
     <!-- Custom CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/main.css' %}">
 
     <title>Ecom</title>
 
@@ -104,7 +104,7 @@
             <li class="nav-item">
               <div class="form-inline">
                 <a href="{% url 'store:cart' %}">
-                 <img id="cart-icon" src="{% static 'images/cart.png' %}" alt="cart">
+                 <img id="cart-icon" src="{% static 'store/images/cart.png' %}" alt="cart">
                </a>
                <p id="cart-total">{{cartItems}}</p>
               </div>

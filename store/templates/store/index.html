@@ -14,6 +14,8 @@
         <h4 class="price">${{ product.price }}</h4> 
       </div>
     </div>
+  {% empty %}
+    <h3>Nothing here!</h3>
   {% endfor %}
 </div>
 {% endblock content %}
