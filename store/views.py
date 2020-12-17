@@ -5,6 +5,7 @@ import datetime
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.views.generic import CreateView
 # from django.contrib.auth.decorators import login_required
 
 from .models import Product, Order, OrderItem, ShippingAddress, Review, Customer
@@ -192,3 +193,9 @@ def process_order_now(request):
             zipcode=data['shipping']['zipcode']
         )
     return JsonResponse('Payment complete!', safe=False)
+
+
+class ProductCreate(CreateView):
+    """Generic view to let users upload a product."""
+    model = Product
+    fields = ['name', 'price', 'digital', 'image', 'description']

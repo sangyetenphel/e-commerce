@@ -1,0 +1,13 @@
+{% extends 'store/base.html' %}
+
+{% block title %}
+    Upload product
+{% endblock title %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %} 
+    {% include 'store/form-template.html' %}
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{% endblock content %}

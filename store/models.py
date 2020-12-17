@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Customer(models.Model):
@@ -22,6 +23,10 @@ class Product(models.Model):
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True)
+
+    def get_absolute_url(self):
+        """Once a user uploads a new product."""
+        return reverse('store:view', args=[str(self.id)])
 
     def __str__(self):
         return self.name
