@@ -1,17 +1,18 @@
 {% extends 'store/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
+
+{% block title %}
+    {{product}}
+{% endblock title%}
 
 {% block content %}
     <div class="row">
-        <div class="col-lg-4 col-sm-6">
-            <h3>{{product}}</h3>
-            <img class="thumbnail" src="{{product.image_url}}" alt="">
-            <div class="view-buttons">
-                <button data-product="{{product.id}}" data-action="add" class="btn btn-warning update-cart">Add to cart</button>
-                <a href="{% url 'store:buy_now' product.id %}" class="btn btn-success">Buy now</a>
-            </div>   
+        <div class="col-lg-3 col-sm-6">
+            <h4>{{product}}</h5>
+            <img class="thumbnail thumbnail-view" src="{{product.image_url}}" alt="">
         </div>
-        <div class="col">
+        <div class="col-7">
             <h5>About this item</h5>
             {% if product.description %}
                 <p>{{ product.description }}</p>
@@ -19,9 +20,19 @@
                 <p>The seller hasn't provided a descrption yet for this product.</p>
             {% endif %}
         </div>
+        <div class="col box">         
+            <p class="quantity">Quantity: 1</p>
+            <div class="quantity">
+                <img data-product={{product.id}} data-action="add" class="chg-quantity update-cart" src="{% static 'store/images/arrow-up.png' %}" alt="arrow-up">
+                <img data-product={{product.id}} data-action="remove" class="chg-quantity update-cart" src="{% static 'store/images/arrow-down.png' %}" alt="arrow-down">
+            </div>
+            <p>$ {{product.price}}</p>
+            <button data-product="{{product.id}}" data-action="add" class="btn btn-warning btn-block update-cart">Add to cart</button>
+            <a href="{% url 'store:buy_now' product.id %}" class="btn btn-success btn-block">Buy now</a>
+        </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-lg-6 col-sm-6">
             {% if request.user.is_authenticated %}
                 <h3>Write a review</h3>

@@ -48,6 +48,7 @@ def view(request, product_id):
             return HttpResponseRedirect(reverse('store:view', args=[product_id]))
     
     data = cart_data(request)
+    items = data['items']
     cart_items = data['cartItems']
     form = ReviewForm()
     reviews = Review.objects.filter(product=product).all()
@@ -62,6 +63,7 @@ def view(request, product_id):
 
     context = {
         'product': product,
+        'items': items,
         'cartItems': cart_items,
         'form': form,
         'reviews': reviews,
