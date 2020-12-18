@@ -5,9 +5,13 @@
 {% endblock title %}
 
 {% block content %}
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %} 
-    {% include 'store/form-template.html' %}
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
+<div class="box-element center">
+    <h4>Enter product details:</h4>
+    <hr>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {% include 'store/form-template.html' %}
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
 {% endblock content %}

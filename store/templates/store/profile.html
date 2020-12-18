@@ -1,0 +1,21 @@
+{% extends 'store/base.html' %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+    <div class="box-element center">
+        <p>Username: {{user.username}}</p>
+        <p>
+            Email:
+            {% if user.email %}
+                {{ user.email }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+        <p>Upload a product: <a href="{% url 'store:product_create' %}">Click Here!</a></p>
+    </div>
+     
+{% endblock content %}

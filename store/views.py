@@ -214,3 +214,10 @@ def register(request):
         form = RegisterForm()
     
     return render(request, 'store/registration_form.html', {'form': form})
+
+
+def profile(request):
+    """Display user profile."""
+    data = cart_data(request)
+    cart_items = data['cartItems']
+    return render(request, 'store/profile.html', {'cartItems': cart_items})
