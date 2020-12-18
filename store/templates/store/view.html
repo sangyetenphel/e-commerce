@@ -8,11 +8,11 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2">
             <h4>{{product}}</h5>
             <img class="thumbnail thumbnail-view" src="{{product.image_url}}" alt="">
         </div>
-        <div class="col-7">
+        <div class="col-7 col-sm-8 col-md-6 col-lg-7">
             <h5>About this item</h5>
             {% if product.description %}
                 <p>{{ product.description }}</p>
@@ -20,7 +20,7 @@
                 <p>The seller hasn't provided a descrption yet for this product.</p>
             {% endif %}
         </div>
-        <div class="col box">         
+        <div class="col-11 col-sm-11 col-md box">         
             <p class="quantity">Quantity: 1</p>
             <div class="quantity">
                 <img data-product={{product.id}} data-action="add" class="chg-quantity update-cart" src="{% static 'store/images/arrow-up.png' %}" alt="arrow-up">
@@ -43,7 +43,7 @@
                     <button class="btn btn-primary right">Submit</button>
                 </form>
             {% else %}
-                Sign-In to write a review for this product. <a href="{% url 'users:login' %}">Here</a>
+                Sign-In to write a review for this product. <a href="{% url 'store:login' %}">Here</a>
             {% endif %} 
         </div>
         <div class="col">   

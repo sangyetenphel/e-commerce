@@ -31,6 +31,7 @@ body{
 }
 
 .product{
+    text-align: center;
     margin-bottom: 20px;
 }
 
@@ -56,14 +57,10 @@ body{
     border-radius: 5px;
 }
 
-.price{
-    float: right;
-    padding-top: 5px;
-}
 
 .box{
-    padding: 30px 20px 0px 20px;
-    margin-right: 10px;
+    padding: 20px;
+    margin: 20px;
     border: 1px solid rgb(185, 185, 185);
     border-radius: 5px;
     font-weight: bold;
@@ -155,12 +152,12 @@ body{
         background-color: red;
     } */
 
-    .price{
-        font-size: 16px;
-    }
-
     .row-image{
         margin-left: 0px;
+    }
+
+    .center{
+        width: 450px;
     }
 }
 
@@ -170,9 +167,6 @@ body{
         background-color: green;
     } */
 
-    .price{
-        font-size: 18px;
-    }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -180,6 +174,12 @@ body{
     /* body{
         background-color: blue;
     } */
+
+    .box{
+        margin-top: 0px;
+        padding: 10px;
+    }
+
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -187,6 +187,10 @@ body{
     /* body{
         background-color: yellow;
     } */
+
+    .box{
+        margin-top: 0px;
+    }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -194,4 +198,8 @@ body{
     /* body{
         background-color: pink;
     } */
+
+    .box{
+        margin-top: 0px;
+    }
 }
