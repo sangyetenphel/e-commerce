@@ -106,7 +106,7 @@
                   <a class="nav-link" href="{% url 'store:login' %}">Sign in</a>
               </li>
             {% endif %}
-            <li class="nav-item">
+            <li class="nav-item" id='cart'>
               <div class="form-inline">
                 <a href="{% url 'store:cart' %}">
                   <img id="cart-icon" src="{% static 'store/images/cart.png' %}" alt="cart">

@@ -10,7 +10,15 @@ class ReviewForm(forms.Form):
 
 class RegisterForm(UserCreationForm):
     """Create a new user."""
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = User
         fields = ('username', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
+    

@@ -5,12 +5,18 @@
 {% endblock title %}
 
 {% block content %}
-{% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-<form action="" method="POST">
-    {% csrf_token %} 
-    {% include 'store/form-template.html' %}
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
+
+
+<div class="box-element center">
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            Your username and password didn't match. Please try again.
+        </div>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %} 
+        {% include 'store/form-template.html' %}
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
 {% endblock content %}
