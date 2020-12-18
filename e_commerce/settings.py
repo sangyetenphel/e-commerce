@@ -136,3 +136,8 @@ MEDIA_URL = '/images/'
 # Where our product images will be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'store/static/store/images')
 
+# Redirect to index page once user logs in
+LOGIN_REDIRECT_URL = 'store:index'
+
+# Redirect to index page after user logs out
+LOGOUT_REDIRECT_URL = 'store:index'

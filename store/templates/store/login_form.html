@@ -1,0 +1,16 @@
+{% extends 'store/base.html' %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block content %}
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+<form action="" method="POST">
+    {% csrf_token %} 
+    {% include 'store/form-template.html' %}
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{% endblock content %}

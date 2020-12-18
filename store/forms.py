@@ -1,4 +1,5 @@
 """A module for all django forms."""
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
@@ -7,11 +8,9 @@ class ReviewForm(forms.Form):
     review = forms.CharField(label="", widget=forms.Textarea)
 
 
-class UserForm(forms.ModelForm):
+class RegisterForm(UserCreationForm):
     """Create a new user."""
-    # To not display password as a plain text.
-    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ('username', 'email')

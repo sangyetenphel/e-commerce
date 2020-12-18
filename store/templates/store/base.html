@@ -96,14 +96,14 @@
                 <a class="nav-link" href="#">Hi, {{ user.username }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Log out</a>
+                <a class="nav-link" href="{% url 'store:logout' %}">Log out</a>
               </li> 
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="#">Register</a>
+                <a class="nav-link" href="{% url 'store:register' %}">Register</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">Sign in</a>
+                  <a class="nav-link" href="{% url 'store:login' %}">Sign in</a>
               </li>
             {% endif %}
             <li class="nav-item">

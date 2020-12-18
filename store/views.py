@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 from .models import Product, Order, OrderItem, ShippingAddress, Review
 from .utils import cart_data, guest_order
-from .forms import ReviewForm, UserForm
+from .forms import ReviewForm, RegisterForm
 
 # Create your views here.
 def index(request):
@@ -128,7 +128,7 @@ def process_order(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        user ==request.user
+        user = request.user
         order, created = Order.objects.get_or_create(user=request.user, complete=False)
     else:
         user, order = guest_order(request, data)
@@ -205,15 +205,12 @@ class ProductCreate(CreateView):
 def register(request):
     """A view to register new users."""
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
+            user = form.save()
             login(request, user)
             return redirect('store:index')
     else:
-        form = UserForm()
+        form = RegisterForm()
     
     return render(request, 'store/registration_form.html', {'form': form})
