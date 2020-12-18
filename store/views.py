@@ -2,15 +2,17 @@
 import json
 import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
+from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 
-from .models import Product, Order, OrderItem, ShippingAddress, Review, Customer
+from .models import Product, Order, OrderItem, ShippingAddress, Review
 from .utils import cart_data, guest_order
-from .forms import ReviewForm
+from .forms import ReviewForm, UserForm
 
 # Create your views here.
 def index(request):
@@ -103,9 +105,8 @@ def update_item(request):
     print('action:', action)
     print('prodcutId:', product_id)
 
-    customer = request.user.customer
     product = Product.objects.get(id=product_id)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order, created = Order.objects.get_or_create(user=request.user, complete=False)
     order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action == 'add':
@@ -127,10 +128,10 @@ def process_order(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        user ==request.user
+        order, created = Order.objects.get_or_create(user=request.user, complete=False)
     else:
-        customer, order = guest_order(request, data)
+        user, order = guest_order(request, data)
 
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
@@ -141,7 +142,7 @@ def process_order(request):
 
     if order.shipping == True:
         ShippingAddress.objects.create(
-            customer=customer,
+            user= user,
             order=order,
             address=data['shipping']['address'],
             city=data['shipping']['city'],
@@ -173,19 +174,19 @@ def process_order_now(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        user = request.user
     else:
         # Creating a guest customer using the data received from the fetch API
-        customer, created = Customer.objects.get_or_create(name=data['form']['name'],email=data['form']['email'])
-        customer.save()
+        user, created = User.objects.get_or_create(name=data['form']['name'],email=data['form']['email'])
+        user.save()
 
-    order = Order(customer=customer, complete=True, transaction_id=transaction_id)
+    order = Order(user=user, complete=True, transaction_id=transaction_id)
     order.save()
     
     # Check if we need to save shipping Info
     if data['shipping']['address'] != None:
         ShippingAddress.objects.create(
-            customer=customer,
+            user=user,
             order=order,
             address=data['shipping']['address'],
             city=data['shipping']['city'],
@@ -196,6 +197,23 @@ def process_order_now(request):
 
 
 class ProductCreate(CreateView):
-    """Generic view to let users upload a product."""
+    """A create view to let users upload a product."""
     model = Product
     fields = ['name', 'price', 'digital', 'image', 'description']
+
+
+def register(request):
+    """A view to register new users."""
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('store:index')
+    else:
+        form = UserForm()
+    
+    return render(request, 'store/registration_form.html', {'form': form})

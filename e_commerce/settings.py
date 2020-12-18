@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # My apps.
     'store',
-    'users',
     
     # Third party apps.
     'bootstrap4',
@@ -137,4 +136,3 @@ MEDIA_URL = '/images/'
 # Where our product images will be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'store/static/store/images')
 
-LOGIN_URL = 'users:login'

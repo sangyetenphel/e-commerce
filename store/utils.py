@@ -1,6 +1,7 @@
 """Helper module for views"""
 import json
-from . models import Product, Order, OrderItem, Customer
+from django.contrib.auth.models import User
+from . models import Product, Order, OrderItem
 
 
 def cookie_cart(request):
@@ -47,8 +48,7 @@ def cookie_cart(request):
 def cart_data(request):
     """Generate the items, orders, cartItems based on user authentication."""
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(user=request.user, complete=False)
         items = order.orderitem_set.all()
         cart_items = order.get_cart_items
     else:
@@ -71,14 +71,14 @@ def guest_order(request, data):
     items = cookie_data['items']
 
     # We will create an account for unauthorized user with their email just incase for keeping track
-    customer, created = Customer.objects.get_or_create(
+    user, created = User.objects.get_or_create(
         email=email
     )
-    customer.name = name
-    customer.save()
+    user.username = name
+    user.save()
 
     order = Order.objects.create(
-        customer=customer,
+        user=user,
         complete=False,
     )
 
@@ -90,4 +90,4 @@ def guest_order(request, data):
             order=order,
             quantity=item['quantity']
         )
-    return customer, order
+    return user, order
