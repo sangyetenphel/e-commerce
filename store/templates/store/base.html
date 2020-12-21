@@ -40,7 +40,8 @@
         }
         return cookieValue;
       }
-      const csrftoken = getToken('csrftoken');
+      var csrftoken = getToken('csrftoken');
+      console.log('CSRF', csrftoken)
 
       function getCookie(name){
         // Split cookie string and get all individual name=value pairs in an array
