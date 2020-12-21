@@ -8,6 +8,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import CreateView, View
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import ensure_csrf_cookie
 # from django.contrib.auth.decorators import login_required
 
 from .models import Product, Order, OrderItem, ShippingAddress, Review
@@ -15,6 +16,7 @@ from .utils import cart_data, guest_order
 from .forms import ReviewForm, RegisterForm
 
 # Create your views here.
+@ensure_csrf_cookie
 def index(request):
     """The home page for our Ecom site."""
     data = cart_data(request)
