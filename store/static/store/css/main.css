@@ -3,6 +3,15 @@ body{
     font-family: cursive;
 }
 
+.a-div{
+    color: black;
+}
+
+.a-div:hover{
+    text-decoration: none;
+    color: black;
+}
+
 #cart-icon{
     width:25px;
     /* margin:  top right bottom left */
