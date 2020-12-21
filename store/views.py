@@ -103,18 +103,29 @@ def update_item(request):
     """Update item in cart."""
     data = json.loads(request.body)
     product_id = data['productId']
-    action = data['action']
-    print('action:', action)
-    print('prodcutId:', product_id)
+
+    try:
+        action = data['action']
+    except KeyError:
+        action = ''
+        print('fcckkkk')
+
+    try:
+        qty = data['qty']
+    except KeyError:
+        qty = ''
 
     product = Product.objects.get(id=product_id)
     order, created = Order.objects.get_or_create(user=request.user, complete=False)
     order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-
-    if action == 'add':
-        order_item.quantity = (order_item.quantity + 1)
-    elif action == 'remove':
-        order_item.quantity = (order_item.quantity - 1)
+    
+    if action != '':
+        if action == 'add':
+            order_item.quantity = (order_item.quantity + 1)
+        elif action == 'remove':
+            order_item.quantity = (order_item.quantity - 1)
+    else:
+        order_item.quantity += qty
 
     order_item.save()
 

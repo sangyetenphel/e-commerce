@@ -85,7 +85,7 @@
         
 
         function updateOrder(productId, qty){
-            var url = '/buy_now/'
+            var url = '/update_item/'
 
             fetch(url, {
                 method:'POST',
@@ -102,7 +102,7 @@
 
             .then((data) => {
                 console.log('data: ', data)
-                window.location.href = '/buy_now/';
+                window.location.reload()
             })
         }
 
