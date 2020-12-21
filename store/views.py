@@ -152,7 +152,7 @@ def process_order(request):
     return JsonResponse('Payment complete!', safe=False)
 
 
-def buy_now(request, product_id):
+def buy_now(request, product_id, qty):
     """When user clicks on 'buy now' button."""
     data = cart_data(request)
     cart_items = data['cartItems']
@@ -160,10 +160,13 @@ def buy_now(request, product_id):
     product = Product.objects.get(id=product_id)
     # If product is digital, then shipping is False
     shipping = not product.digital
+    total = product.price * int(qty)
     context = {
         'product': product,
         'shipping': shipping,
         'cartItems': cart_items,
+        'qty': qty,
+        'total': total
         }
     return render(request, 'store/buy_now.html', context)
 
@@ -177,7 +180,7 @@ def process_order_now(request):
         user = request.user
     else:
         # Creating a guest customer using the data received from the fetch API
-        user, created = User.objects.get_or_create(name=data['form']['name'],email=data['form']['email'])
+        user, created = User.objects.get_or_create(username=data['form']['name'],email=data['form']['email'])
         user.save()
 
     order = Order(user=user, complete=True, transaction_id=transaction_id)

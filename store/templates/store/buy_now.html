@@ -65,9 +65,9 @@
                 <div class="flex-2"><img class="row-image default" src="{{product.image_url}}" alt="{{item.product}}"></div>
                 <div class="flex-2"><p>{{product.name}}</p></div>
                 <div class="flex-1"><p>${{product.price}}</p></div>
-                <!-- <div class="flex-1"><p>x{{item.quantity}}</p></div> -->
+                <div class="flex-1"><p>x{{qty}}</p></div>
             </div>
-            <h5>Total: ${{product.price}}</h5>
+            <h5>Total: ${{total}}</h5>
         </div>
     </div>
 </div>
@@ -76,7 +76,7 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AdolZR0tFJ7-AC1eZrGAZoN0KO2ALbKwG4YHUFX-WULO71TzvnxY8W1gPxG51FbVwlHiyq_LlF-krBcN&currency=USD&disable-funding=credit"></script>
 
     <script>
-        var total = '{{product.price}}'
+        var total = '{{total}}'
 
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
@@ -168,7 +168,7 @@
 
             .then((response) => response.json())
             .then((data) => {
-                console.log('Sucess:', data)
+                console.log('Success:', data)
                 alert('Transaction completed')
 
                 cart = {}
