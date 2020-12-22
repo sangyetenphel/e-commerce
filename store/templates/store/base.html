@@ -66,11 +66,8 @@
       var cart = JSON.parse(getCookie('cart'))
       if(cart == undefined){
         cart = {}
-        console.log('Cart was created!')
         document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
       }
-      console.log('Cart:', cart)
-
     </script>
   </head>
   <body>
@@ -81,17 +78,6 @@
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">All <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">New</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Used</a>
-            </li>
-          </ul> -->
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
               <li class="nav-item">

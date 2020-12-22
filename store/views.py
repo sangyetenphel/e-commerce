@@ -3,13 +3,12 @@ import json
 import datetime
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import ensure_csrf_cookie
-# from django.contrib.auth.decorators import login_required
 
 from .models import Product, Order, OrderItem, ShippingAddress, Review
 from .utils import cart_data, guest_order
@@ -48,7 +47,11 @@ def view(request, product_id):
                 edit_review.save()
             except:
                 # Else create a new review for the product with that user
-                new_review = Review.objects.create(product=product, reviewer=reviewer, review=review)
+                new_review = Review.objects.create(
+                    product=product,
+                    reviewer=reviewer,
+                    review=review
+                )
                 new_review.save()
             return HttpResponseRedirect(reverse('store:view', args=[product_id]))
     
@@ -108,7 +111,6 @@ def update_item(request):
         action = data['action']
     except KeyError:
         action = ''
-        print('fcckkkk')
 
     try:
         qty = data['qty']
@@ -118,7 +120,7 @@ def update_item(request):
     product = Product.objects.get(id=product_id)
     order, created = Order.objects.get_or_create(user=request.user, complete=False)
     order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-    
+
     if action != '':
         if action == 'add':
             order_item.quantity = (order_item.quantity + 1)
@@ -162,6 +164,7 @@ def process_order(request):
             state=data['shipping']['state'],
             zipcode=data['shipping']['zipcode']
         )
+
     return JsonResponse('Payment complete!', safe=False)
 
 
@@ -181,6 +184,7 @@ def buy_now(request, product_id, qty):
         'qty': qty,
         'total': total
         }
+
     return render(request, 'store/buy_now.html', context)
 
 
@@ -193,12 +197,14 @@ def process_order_now(request):
         user = request.user
     else:
         # Creating a guest customer using the data received from the fetch API
-        user, created = User.objects.get_or_create(username=data['form']['name'],email=data['form']['email'])
+        user, created = User.objects.get_or_create(
+            username=data['form']['name'],
+            email=data['form']['email']
+            )
         user.save()
 
     order = Order(user=user, complete=True, transaction_id=transaction_id)
-    order.save()
-    
+    order.save()   
     # Check if we need to save shipping Info
     if data['shipping']['address'] != None:
         ShippingAddress.objects.create(
@@ -228,7 +234,6 @@ def register(request):
             return redirect('store:index')
     else:
         form = RegisterForm()
-    
     return render(request, 'store/registration_form.html', {'form': form})
 
 

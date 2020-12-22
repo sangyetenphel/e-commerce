@@ -122,14 +122,12 @@
 
         form.addEventListener('submit', function(e){
             e.preventDefault()
-            console.log('form submitted..')
             document.getElementById('form-button').classList.add('hidden')
             document.getElementById('payment-info').classList.remove('hidden')
         })
 
 
         function submitFormData(){
-            console.log('Payment button clicked')
 
             var userFormData = {
                 'name': null,
@@ -168,10 +166,8 @@
 
             .then((response) => response.json())
             .then((data) => {
-                console.log('Success:', data)
                 alert('Transaction completed')
 
-                // cart = {}
                 document.cookie = 'cart=' + JSON.stringify(cart) + ";dommain=;path=/"
                 window.location.href = "{% url 'store:index' %}"
             })

@@ -4,9 +4,7 @@ for(var i=0; i<updateBtns.length; i++){
     updateBtns[i].addEventListener('click', function(){
         var productID = this.dataset.product
         var action = this.dataset.action
-        // console.log('productID:', productID, 'action:', action)
-        
-        // console.log('USER:', user)
+
         if(user === 'AnonymousUser'){
             addCookieItem(productID, action)
         }else{
@@ -16,8 +14,6 @@ for(var i=0; i<updateBtns.length; i++){
 }
 
 function addCookieItem(productID, action){
-    console.log("Not logged in.....")
-
     if(action == 'add'){
         if(cart[productID] == undefined){
             cart[productID] = {'quantity':1}
@@ -37,8 +33,6 @@ function addCookieItem(productID, action){
 }
 
 function updateUserOrder(productID, action){
-    console.log('User is logged in, sending data..')
-
     var url='/update_item/'
 
     fetch(url, {
@@ -55,7 +49,6 @@ function updateUserOrder(productID, action){
     })
 
     .then((data) =>{
-        console.log('data:', data)
         location.reload()
     })
 }
