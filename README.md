@@ -9,7 +9,7 @@ Video Demonstration of the app: https://youtu.be/bOfClMkb2wo
 * Complete User Registration System, Login, Logout.
 * Individual product page where logged in user can write/edit reviews and/or look at other user reviews.
 * Option to Buy Now/Add to cart from the individual product page.
-* Give the ability for logged in users to add their own products to sell
+* Give the ability for logged in users to add their own products to sell.
 
 ### Fig: Model of the database.
 ![](store/static/store/images/model.png)
